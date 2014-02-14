@@ -1,0 +1,28 @@
+{
+  "name": "node-fork-rpc",
+  "version": "0.1.0",
+  "description": "Module to allow RPC between parent and child processes.",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pauldorn/node-fork-rpc"
+  },
+  "keywords": [
+    "node",
+    "rpc",
+    "fork"
+  ],
+  "author": "Paul I. Dorn",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "gitHead": "c4e42afec6fa625ada28f3be80a665f9e4794396",
+  "bugs": {
+    "url": "https://github.com/pauldorn/node-fork-rpc/issues"
+  }
+}
