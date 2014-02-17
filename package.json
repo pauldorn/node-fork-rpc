@@ -24,5 +24,8 @@
   "gitHead": "c4e42afec6fa625ada28f3be80a665f9e4794396",
   "bugs": {
     "url": "https://github.com/pauldorn/node-fork-rpc/issues"
+  },
+  "dependencies": {
+    "requirejs": "~2.1.10"
   }
 }
