@@ -1,7 +1,6 @@
 
 var requirejs = require("requirejs");
 
-console.log("Got here");
 requirejs(["../index", "path"], function(nodeFork, path){
 	nodeFork.run(path.resolve("./examples/passedApi"), function(client){
 		client.one("One Tada", function(info) {
