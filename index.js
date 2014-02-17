@@ -1,5 +1,7 @@
 
-define(['child_process'], function(child_process){
+var requirejs = require("requirejs");
+
+requirejs.define(['child_process'], function(child_process){
 	"use strict";
 	function getFunctionInfo(api) {
 		var functionInfo = [];
