@@ -26,6 +26,5 @@
     "url": "https://github.com/pauldorn/node-fork-rpc/issues"
   },
   "dependencies": {
-    "requirejs": "~2.1.10"
   }
 }
