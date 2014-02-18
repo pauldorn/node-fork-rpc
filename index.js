@@ -19,7 +19,7 @@
 	function run(api, onReady) {
 		var apiInstance = require(api), child_process = require("child_process");
 		var client = {}, fInfoList = getFunctionInfo(apiInstance),
-			child = child_process.fork("./lib/childRunner", [api]), outstandingCalls = {}, ct = 0;
+			child = child_process.fork(path.resolve(path.join(__dirname, "lib", "childRunner")), [api]), outstandingCalls = {}, ct = 0;
 
 
 		fInfoList.forEach(function(fInfo){
