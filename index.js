@@ -1,8 +1,5 @@
 
-var requirejs = require("requirejs");
 
-requirejs.define(['child_process'], function(child_process){
-	"use strict";
 	function getFunctionInfo(api) {
 		var functionInfo = [];
 
@@ -20,50 +17,49 @@ requirejs.define(['child_process'], function(child_process){
 	}
 
 	function run(api, onReady) {
-		require([api], function(apiInstance){
-			var client = {}, fInfoList = getFunctionInfo(apiInstance),
-				child = child_process.fork("./lib/childRunner", [api]), outstandingCalls = {}, ct = 0;
+		var apiInstance = require(api), child_process = require("child_process");
+		var client = {}, fInfoList = getFunctionInfo(apiInstance),
+			child = child_process.fork("./lib/childRunner", [api]), outstandingCalls = {}, ct = 0;
 
 
-			fInfoList.forEach(function(fInfo){
-				client[fInfo.fName] = function(){
-					var args = Array.prototype.slice.call(arguments, 0), callback;
-					if(typeof(args[args.length-1]) === 'function'){
-						callback = args[args.length-1];
-						args = args.slice(0, args.length-1);
-					} else {
-						callback = false;
-					}
-					var e = {
-						fName: fInfo.fName,
-						args: args,
-						msgNum: ct++
-					}
-					outstandingCalls[e.msgNum] = callback;
-					child.send(e);
+		fInfoList.forEach(function(fInfo){
+			client[fInfo.fName] = function(){
+				var args = Array.prototype.slice.call(arguments, 0), callback;
+				if(typeof(args[args.length-1]) === 'function'){
+					callback = args[args.length-1];
+					args = args.slice(0, args.length-1);
+				} else {
+					callback = false;
+				}
+				var e = {
+					fName: fInfo.fName,
+					args: args,
+					msgNum: ct++
+				}
+				outstandingCalls[e.msgNum] = callback;
+				child.send(e);
+			}
+		});
+		child.on("message", function __once(e){
+			child.removeListener("message", __once);
+			child.on("message", function(e){
+				var callback;
+				if(e.msgNum === undefined){
+					console.log("Error: No message number in child response");
+					return;
+				}
+				if(outstandingCalls[e.msgNum] === undefined) {
+					console.log("Error: Wrong message number in child response");
+					return;
+				}
+				callback = outstandingCalls[e.msgNum];
+				delete outstandingCalls[e.msgNum];
+				if(callback) {
+					callback.call(callback, e.args);
 				}
 			});
-			child.on("message", function __once(e){
-				child.removeListener("message", __once);
-				child.on("message", function(e){
-					var callback;
-					if(e.msgNum === undefined){
-						console.log("Error: No message number in child response");
-						return;
-					}
-					if(outstandingCalls[e.msgNum] === undefined) {
-						console.log("Error: Wrong message number in child response");
-						return;
-					}
-					callback = outstandingCalls[e.msgNum];
-					delete outstandingCalls[e.msgNum];
-					if(callback) {
-						callback.call(callback, e.args);
-					}
-				});
-				onReady(client);
-			});
-		})
+			onReady(client);
+		});
 	}
 
 	// Register's partner (client) is implicit, in that it is always this processes parent process.
@@ -94,8 +90,7 @@ requirejs.define(['child_process'], function(child_process){
 		})
 	}
 
-	return {
-		run:run,
-		register: register
-	};
-});
+module.exports = {
+	run:run,
+	register: register
+};
