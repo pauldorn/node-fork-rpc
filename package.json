@@ -1,6 +1,6 @@
 {
   "name": "node-fork-rpc",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Module to allow RPC between parent and child processes.",
   "main": "index.js",
   "directories": {

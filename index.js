@@ -18,7 +18,7 @@
 
 	function run(api, onReady) {
 		var apiInstance = require(api), child_process = require("child_process");
-		var client = {}, fInfoList = getFunctionInfo(apiInstance),
+		var client = {}, fInfoList = getFunctionInfo(apiInstance), path = require("path"),
 			child = child_process.fork(path.resolve(path.join(__dirname, "lib", "childRunner")), [api]), outstandingCalls = {}, ct = 0;
 
 
