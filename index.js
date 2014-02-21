@@ -91,7 +91,7 @@
 				})
 				apiInstance[e.fName].apply(null, e.args);
 			})
-		})
+		}, true);// child process flag == true
 	}
 
 module.exports = {

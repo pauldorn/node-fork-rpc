@@ -1,6 +1,6 @@
 
 module.exports = {
-	getApi: function(register){
+	getApi: function(register, startServer){
 		register({
 			one: function(doOne, callback) {
 				console.log("One Boo", arguments);
