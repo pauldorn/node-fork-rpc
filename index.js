@@ -55,7 +55,7 @@
 					callback = outstandingCalls[e.msgNum];
 					delete outstandingCalls[e.msgNum];
 					if(callback) {
-						callback.call(callback, e.args);
+						callback.apply(callback, e.args);
 					}
 				});
 				onReady(client, child);
