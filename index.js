@@ -89,7 +89,7 @@
 						args: args
 					})
 				})
-				apiInstance[e.fName].apply(null, e.args);
+				apiInstance[e.fName].call(null, e.args);
 			})
 		}, true);// child process flag == true
 	}
