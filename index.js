@@ -66,7 +66,7 @@
 
 	// Register's partner (client) is implicit, in that it is always this processes parent process.
 
-	function register(api) {
+	function register(api, onReady) {
 		api.getApi(function(apiInstance){
 			var fInfoList = getFunctionInfo(apiInstance), fNames = {};
 			fInfoList.forEach(function (fInfo){
@@ -89,8 +89,9 @@
 						args: args
 					})
 				})
-				apiInstance[e.fName].call(null, e.args);
+				apiInstance[e.fName].apply(null, e.args);
 			})
+			onReady();
 		}, true);// child process flag == true
 	}
 
