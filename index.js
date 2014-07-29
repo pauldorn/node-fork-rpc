@@ -16,7 +16,7 @@
 		return functionInfo;
 	}
 
-	function run(module, onReady) {
+	function run(module, onReady, onBroadcast) {
 		require(module).getApi(function(api){
 			var child_process = require("child_process"), client = {}, fInfoList = getFunctionInfo(api), path = require("path"),
 				child = child_process.fork(path.resolve(path.join(__dirname, "lib", "childRunner")), [module]), outstandingCalls = {}, ct = 0;
@@ -50,6 +50,11 @@
 					}
 					if(outstandingCalls[e.msgNum] === undefined) {
 						console.log("Error: Wrong message number in child response");
+						return;
+					}
+					if(e.msgNum === -1 && onBroadcast && typeof(onBroadcast) === 'function') {
+						// broadcast message
+						onBroadcast(e.topic, e.message);
 						return;
 					}
 					callback = outstandingCalls[e.msgNum];
