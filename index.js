@@ -19,7 +19,7 @@ function getFunctionInfo(api) {
 function run(module, onReady, onBroadcast) {
 	require(module).getApi(function(api){
 		var child_process = require("child_process"), client = {}, fInfoList = getFunctionInfo(api), path = require("path"),
-			child = child_process.fork(path.resolve(path.join(__dirname, "lib", "childRunner")), [module]), outstandingCalls = {}, ct = 0;
+			child = child_process.fork(path.resolve(path.join(__dirname, "lib", "childRunner")), [module], {execArgv:[]}), outstandingCalls = {}, ct = 0;
 
 
 		fInfoList.forEach(function(fInfo){
